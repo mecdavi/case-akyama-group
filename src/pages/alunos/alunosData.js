@@ -1,0 +1,43 @@
+    import DefaultTitle from '@/components/DefaultTitle.vue';
+    import utils from '@/boot/utils';
+    export default {
+        mixins: [utils],
+        componentes:{
+            DefaultTitle
+        },
+        data() {
+            return {
+                data:{
+                    id:'',
+                    date:'',
+                    nome:'',
+                    data_nascimento:'',
+                    turma_id:'',
+                    route:'alunos',
+                    ativo:true,
+                },
+                itemsTurma:[
+                    {item:'Teste Turma' ,value:'1'}
+                ]
+             
+            }
+        },
+        methods:{
+            save(){
+                if(this.data.id){
+                    localStorage.removeItem(this.data.id)
+                    localStorage.setItem(this.data.id,JSON.stringify(this.data))
+                }else{
+                    this.data.id = localStorage.length
+                    localStorage.setItem(localStorage.length,JSON.stringify(this.data))
+                }
+                this.show = true
+                this.$router.push('/alunos/show/'+this.data.id)
+            },
+        },
+        async created(){
+            this.searchData(this.$route.params.id,this.data)
+            this.optionsItems('turmas',this.itemsTurma)
+
+        }
+    }
